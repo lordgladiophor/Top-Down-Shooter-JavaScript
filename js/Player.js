@@ -41,6 +41,9 @@ class PlayerClass extends Entity {
                     break;
             }
         });
+        window.addEventListener('mouseup', (e) => {
+            this.shootBullet(e.x, e.y);
+        })
     }
 
     loop = () => {
@@ -78,5 +81,10 @@ class PlayerClass extends Entity {
         }
 
         this.move(x, y);
+    }
+
+
+    shootBullet = (directionX, directionY) => {
+        bullet.start(this.posX, this.posY, directionX - this.posX, directionY - this.posY);
     }
 }

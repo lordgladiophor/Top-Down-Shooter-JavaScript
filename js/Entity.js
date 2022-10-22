@@ -1,21 +1,36 @@
 class Entity {
-    #docElement;
+    docElement;
     posX = 0;
     posY = 0;
     speed = 1;
 
+    alive = true;
+
     constructor(docElementID) {
-        this.#docElement = document.getElementById(docElementID);
+        let element = document.createElement('div');
+        element.id = docElementID;
+        element.classList.add('entity');
+        this.docElement = element;
+        //this.#docElement = document.getElementById(docElementID);
         window.requestAnimationFrame(this.#staticLoop);
     }
 
+    staticStart = () => {
+        this.alive = true;
+        body.appendChild(this.docElement);
+    }
     #staticLoop = () => {
-        this.loop();
+        if (this.alive) {
+            this.loop();
+        }
         window.requestAnimationFrame(this.#staticLoop);
     }
     
     // Sobreescribir
     loop = () => {
+    }
+    start = () => {
+        this.staticStart();
     }
     
     move = (x, y) => {
@@ -24,6 +39,13 @@ class Entity {
         this.posX = Math.round(this.posX);
         this.posY = Math.round(this.posY);
 
-        this.#docElement.style.transform = `translate(${this.posX}px, ${this.posY}px)`;
+        /* this.docElement.style.left = this.posX + 'px';
+        this.docElement.style.top = this.posY + 'px'; */
+        this.docElement.style.transform = `translate(${this.posX}px, ${this.posY}px)`;
+    }
+
+    free = () => {
+        body.removeChild(this.docElement);
+        this.alive = false;
     }
 }
